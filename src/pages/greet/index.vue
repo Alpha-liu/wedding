@@ -1,10 +1,8 @@
 <template>
     <div class="greet">
         <image class="head" src="../../static/images/heart-animation.gif"/>
-        <scroll-view
-            scroll-y
-            class="box"
-        >
+        <scroll-view scroll-y
+            class="box">
             <div class="item" v-for="(item, index) in userList" :key="index">
                 <image :src="item.user.avatarUrl"/>
                 <p>{{item.user.nickName}}</p>
@@ -13,13 +11,14 @@
         <p class="count">已收到{{userList.length}}位好友送来的祝福</p>
         <div class="bottom">
             <button class="left" lang="zh_CN" open-type="getUserInfo" @getuserinfo="sendGreet">送上祝福</button>
-            <button class="right" open-type="share">分享喜悦</button> 
+            <button class="right" open-type="share">分享喜悦</button>
         </div>
     </div>
 </template>
 
 <script>
 import tools from 'common/js/h_tools'
+import cloud from '@/service/cloud'
 export default {
   name: 'Greet',
   data () {
@@ -29,7 +28,7 @@ export default {
       userInfo: ''
     }
   },
-  onShow () {
+  onLoad () {
     const that = this
     that.getUserList()
   },
@@ -45,24 +44,28 @@ export default {
         })
       }
     },
-
     addUser () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('user')
+      const user = db.collection('usergreet')
       user.add({
         data: {
           user: that.userInfo
         }
       }).then(res => {
-        that.getUserList()
+        // that.getUserList()
+        let user = {
+          user: that.userInfo
+        }
+        that.userList = that.userList.concat(user)
+        tools.showToast('感谢您的祝福~')
       })
     },
 
     getOpenId () {
       const that = this
       wx.cloud.callFunction({
-        name: 'user',
+        name: 'login',
         data: {}
       }).then(res => {
         that.openId = res.result.openid
@@ -73,7 +76,7 @@ export default {
     getIsExist () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('user')
+      const user = db.collection('usergreet')
       user.where({
         _openid: that.openId
       }).get().then(res => {
@@ -87,12 +90,21 @@ export default {
 
     getUserList () {
       const that = this
-      wx.cloud.callFunction({
-        name: 'userList',
-        data: {}
-      }).then(res => {
-        that.userList = res.result.data.reverse()
+      wx.showNavigationBarLoading()
+      cloud.get('usergreet').then((res) => {
+        if (res.errMsg === 'collection.get:ok') {
+          that.userList = res.data
+          wx.hideNavigationBarLoading()
+        }
       })
+    }
+  },
+  onShareAppMessage (res) {
+    // console.log(res)
+    return {
+      title: '送上您的祝福',
+      path: '/page/greet',
+      imageUrl: '../../static/logo.jpg'
     }
   }
 }

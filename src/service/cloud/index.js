@@ -17,8 +17,10 @@ const add = function (data, databseName) {
   })
 }
 
-const get = function (databseName) {
-  return db.collection(`${databseName}`)
+const get = function (databseName, page) {
+  return db.collection(databseName)
+    .skip(page * 10)
+    .limit(10)
     .get()
 }
 

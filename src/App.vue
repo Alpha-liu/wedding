@@ -46,4 +46,22 @@ page
     height 100%
 image
     display block
+
+.load-more
+    width: 65%;
+    margin: 25rpx auto;
+    line-height: 50rpx;
+    font-size: 23rpx;
+    text-align: center;
+    color:#898989;
+    .load-icon
+        width: 32rpx;
+        height: 32rpx;
+        margin-right: 20rpx;
+        display: inline-block;
+        background-size: 100%;
+        vertical-align: middle;
+        .load-txt
+            display: inline-block;
+            vertical-align: middle;
 </style>

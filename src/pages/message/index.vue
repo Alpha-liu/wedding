@@ -1,26 +1,30 @@
 <template>
     <div class="message">
-        <scroll-view
-            scroll-y
-            @scroll="scroll"
-            class="box"
-        >
+        <view class="box">
             <p class="place"></p>
             <div class="item" v-for="(item, index) in messageList" :key="index">
-                <image class="left" :src="item.url"/>
+                <image class="left" :src="item.avatarUrl"/>
                 <div class="right">
                     <div class="top">
-                        <span class="top-l">{{item.name}}</span>
-                        <span class="top-r">{{item.time}}</span>
+                        <span class="top-l">{{item.nickName}}</span>
+                        <span class="top-r">{{item.createTime}}</span>
                     </div>
-                    <p class="con">{{item.desc}}</p>
+                    <p class="con">{{item.userMsg}}</p>
                 </div>
             </div>
+
+            <!-- loading -->
+            <view class="load-more">
+                <image class="load-icon" v-if="isMore" src="../../static/images/load.gif"></image>
+                <text class="load-txt">{{loadTxt}}</text>
+            </view>
+
             <p class="place-end"></p>
-        </scroll-view>
+
+        </view>
         <div class="bottom">
             <button class="left" lang="zh_CN" open-type="getUserInfo" @getuserinfo="toMessage">说点啥吧</button>
-            <button class="right" @tap="toForm">我要出席</button> 
+            <button class="right" @tap="toForm">我要出席</button>
         </div>
         <div class="dialog" v-show="isOpen">
             <textarea focus="true" maxlength="80" class="desc" placeholder="在这里输入您想要说的话" name="textarea" placeholder-style="color:#ccc;" v-model="desc"/>
@@ -52,6 +56,7 @@ import HVideo from 'components/video'
 import HForm from 'components/form'
 import HFormlist from 'components/formlist'
 import tools from 'common/js/h_tools'
+import cloud from '@/service/cloud'
 export default {
   name: 'Message',
   components: {
@@ -64,6 +69,9 @@ export default {
       isOpen: false,
       desc: '',
       messageList: [],
+      page: 0,
+      loadTxt: '加载中',
+      isMore: true,
       openId: '',
       userInfo: '',
       isForm: false,
@@ -72,14 +80,19 @@ export default {
       formList: []
     }
   },
-  onShow () {
+  onLoad () {
     const that = this
     that.isVideo = false
     that.isForm = false
     that.isFormlist = false
     that.getMessageList()
   },
-
+  onReachBottom (e) {
+    if (!this.isMore) {
+      return false
+    }
+    this.getMessageList()
+  },
   methods: {
     toMessage (e) {
       const that = this
@@ -104,19 +117,26 @@ export default {
       const that = this
       if (that.desc) {
         const db = wx.cloud.database()
-        const message = db.collection('message')
+        const message = db.collection('msg')
         message.add({
           data: {
-            desc: that.desc,
+            userMsg: that.desc,
             type: 'message',
-            time: that.getNowFormatDate(),
-            url: that.userInfo.avatarUrl,
-            name: that.userInfo.nickName
+            createTime: that.getNowFormatDate(),
+            avatarUrl: that.userInfo.avatarUrl,
+            nickName: that.userInfo.nickName
           }
         }).then(res => {
+          that.messageList = that.messageList.concat({
+            userMsg: that.desc,
+            type: 'message',
+            createTime: that.getNowFormatDate(),
+            avatarUrl: that.userInfo.avatarUrl,
+            nickName: that.userInfo.nickName
+          })
           that.isOpen = false
           that.desc = ''
-          that.getMessageList()
+          tools.showToast('感谢您的留言~')
         })
       } else {
         tools.showToast('说点什么吧~')
@@ -157,11 +177,22 @@ export default {
 
     getMessageList () {
       const that = this
-      wx.cloud.callFunction({
-        name: 'messageList',
-        data: {}
-      }).then(res => {
-        that.messageList = res.result.data.reverse()
+      wx.showNavigationBarLoading()
+      cloud.get('msg', that.page).then((res) => {
+        if (res.errMsg === 'collection.get:ok') {
+          if (res.data.length <= 0) {
+            that.isMore = false
+            that.loadTxt = '没有更多了'
+          } else {
+            that.messageList = that.messageList.concat(res.data)
+            that.page++
+            if (res.data.length < 10) {
+              that.isMore = false
+              that.loadTxt = '没有更多了'
+            }
+          }
+          wx.hideNavigationBarLoading()
+        }
       })
     },
 
@@ -178,7 +209,7 @@ export default {
     addUser () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('user')
+      const user = db.collection('usergreet')
       user.add({
         data: {
           user: that.userInfo
@@ -191,7 +222,7 @@ export default {
     getOpenId () {
       const that = this
       wx.cloud.callFunction({
-        name: 'user',
+        name: 'login',
         data: {}
       }).then(res => {
         that.openId = res.result.openid
@@ -202,7 +233,7 @@ export default {
     getIsExist () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('user')
+      const user = db.collection('usergreet')
       user.where({
         _openid: that.openId
       }).get().then(res => {
@@ -235,11 +266,12 @@ export default {
 
     getFromlist () {
       const that = this
-      wx.cloud.callFunction({
-        name: 'presentList',
-        data: {}
-      }).then(res => {
-        that.formList = res.result.data.reverse()
+      wx.showNavigationBarLoading()
+      cloud.get('present').then((res) => {
+        if (res.errMsg === 'collection.get:ok') {
+          that.formList = res.data
+          wx.hideNavigationBarLoading()
+        }
       })
     }
   }
@@ -248,11 +280,11 @@ export default {
 
 <style scoped lang="stylus">
 .message
-    height 100%
     width 100%
+    overflow-y auto
     .box
-        height 100%
         background #F9E0D9
+        min-height 100%
         width 100%
         .place
             height 20rpx

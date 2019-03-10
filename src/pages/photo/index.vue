@@ -13,7 +13,7 @@ export default {
   components: {
     HSwiper
   },
-  onShow () {
+  onLoad () {
     const that = this
     that.isGif = !that.isGif
     that.getList()

@@ -14,11 +14,11 @@
         </div>
         <div class="info" :animation="animationData">
             <div class="content">
-                <h1>Mr.黄 & Miss.梅</h1>
+                <h1>Mr.姬 & Miss.徐</h1>
                 <p>谨定于 2019年2月2日 （星期六）中午12:00</p>
                 <p>农历 腊月二十八 中午十二点整 举办婚礼</p>
-                <p>席设：黄梅县天下禅大酒店锦园三厅</p>
-                <p>地址：黄冈市黄梅县黄梅大道777号</p>
+                <p>席设：江苏省常州市香格里拉大酒店</p>
+                <p>地址：江苏省常州市康庄大道777号</p>
                 <image src="../../static/images/we.png" class="img_footer"/>
             </div>
         </div>
@@ -133,7 +133,7 @@ export default {
     position fixed
     right 0
     top 20rpx
-    width 100rpx
+    width 85rpx
     z-index 99
     display flex
     justify-content flex-start

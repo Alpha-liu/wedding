@@ -61,11 +61,7 @@ export default {
       const that = this
       that.count = e.mp.detail.value
       that.list.forEach(item => {
-        if (item.name === that.count) {
-          item.checked = true
-        } else {
-          item.checked = false
-        }
+        item.checked = item.name === that.count
       })
     },
 
