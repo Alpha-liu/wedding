@@ -1,6 +1,6 @@
 <template>
     <div class="greet">
-        <image class="head" src="../../static/images/heart-animation.gif"/>
+        <image class="head" src="https://666f-forguo-0979a1-1251886253.tcb.qcloud.la/wxapp/wedding/static/imgs/heart-animation.gif"/>
         <scroll-view scroll-y
             class="box">
             <div class="item" v-for="(item, index) in userList" :key="index">
@@ -103,7 +103,7 @@ export default {
     // console.log(res)
     return {
       title: '送上您的祝福',
-      path: '/page/greet',
+      path: '/pages/greet/main',
       imageUrl: '../../static/logo.jpg'
     }
   }
