@@ -19,7 +19,7 @@
                 <p>農歷 {{mainInfo_lunar}} 举办婚礼</p>
                 <p>席设: {{mainInfo_hotel}}</p>
                 <p>地址: {{mainInfo_address}}</p>
-				<p>敬治喜筵 恭请阖第光临</p>
+                <p>敬治喜筵 恭请阖第光临</p>
                 <image src="../../static/images/we.png" class="img_footer"/>
             </div>
         </div>
