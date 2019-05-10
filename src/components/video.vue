@@ -1,6 +1,6 @@
 <template>
     <div class="section">
-        <video id="myVideo" src="cloud://bk-invitation-48f.626b-bk-invitation-48f/video/video.mp4" :danmu-list="danmuList" enable-danmu danmu-btn controls poster="https://626b-bk-invitation-48f-1259038632.tcb.qcloud.la/images/poster.jpg?x-oss-process=image/resize,w_720,h_480,m_fill,limit_0"></video>
+        <video id="myVideo" src="cloud://视频资源地址/video.mp4" :danmu-list="danmuList" enable-danmu danmu-btn controls poster="https://视频封面地址/poster.jpg?x-oss-process=image/resize,w_720,h_480,m_fill,limit_0"></video>
         <div class="btn-area">
             <input @blur="bindInputBlur" placeholder="请输入临时弹幕，真实弹幕来自留言" placeholder-style="color:#bbb"/>
             <button @tap="bindSendDanmu">点击生成临时弹幕</button>
