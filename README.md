@@ -41,15 +41,14 @@
 ---
 ###  源github地址
 
+github：https://github.com/Alpha-liu/wedding
+
+###  原始源github地址
+
 github：https://github.com/forguos/wedding
-
-个人博客：https://blog.csdn.net/WEIGUO19951107
-
-个人站点：https://f2e.forguo.com
 
 ---
 
-###  Bug修正版地址
 
 ### 编译调试前需修正如下文件
 1. \project.config.json 在第13行更改APP ID
