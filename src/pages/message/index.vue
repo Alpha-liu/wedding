@@ -23,11 +23,11 @@
 
         </view>
         <div class="bottom">
-            <button class="left" lang="zh_CN" open-type="getUserInfo" @getuserinfo="toMessage">说点啥吧</button>
-            <button class="right" @tap="toForm">我要出席</button>
+            <button class="left" @tap="toForm">我要出席</button>
+            <button class="right" lang="zh_CN" open-type="getUserInfo" @getuserinfo="toMessage">说点啥吧</button>
         </div>
         <div class="dialog" v-show="isOpen">
-            <textarea focus="true" maxlength="80" class="desc" placeholder="在这里输入您想要说的话" name="textarea" placeholder-style="color:#ccc;" v-model="desc"/>
+            <textarea maxlength="80" class="desc" placeholder="在这里输入您想要说的话" name="textarea" placeholder-style="color:#ccc;" v-model="desc"/>
             <div class="btn">
                 <button class="left" @tap="sendMessage">发送留言</button>
                 <button class="right" @tap="cancel">取消</button>
@@ -198,7 +198,12 @@ export default {
 
     toForm () {
       const that = this
-      that.isForm = true
+      const allowFlag = that.checkDate()
+      if (allowFlag === true) {
+        that.isForm = true
+      } else {
+        tools.showLongToast('非常抱歉!已经过了提交日期,请电话或微信联系 ~ ')
+      }
     },
 
     closeForm () {
@@ -206,10 +211,22 @@ export default {
       that.isForm = false
     },
 
+    checkDate () {
+      const endDate = new Date()
+      const todayDate = new Date()
+      // 定义网上提交截至日期
+      endDate.setFullYear(2019, 6, 15)
+      if (endDate.getTime() > todayDate.getTime()) {
+        return true
+      } else {
+        return false
+      }
+    },
+
     addUser () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('usergreet')
+      const user = db.collection('user')
       user.add({
         data: {
           user: that.userInfo
@@ -222,7 +239,7 @@ export default {
     getOpenId () {
       const that = this
       wx.cloud.callFunction({
-        name: 'login',
+        name: 'user',
         data: {}
       }).then(res => {
         that.openId = res.result.openid
@@ -233,7 +250,7 @@ export default {
     getIsExist () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('usergreet')
+      const user = db.collection('user')
       user.where({
         _openid: that.openId
       }).get().then(res => {
@@ -370,7 +387,7 @@ export default {
             outline none
             padding 30rpx
             width 690rpx
-            background #f5f5f5
+            background #ffffee
             &::-webkit-input-placeholder
                 font-size 30rpx
                 color #999
