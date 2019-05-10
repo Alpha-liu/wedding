@@ -214,7 +214,7 @@ export default {
     checkDate () {
       const endDate = new Date()
       const todayDate = new Date()
-      // 定义网上提交截至日期
+      // Define deadline of attendance confirmation
       endDate.setFullYear(2019, 6, 15)
       if (endDate.getTime() > todayDate.getTime()) {
         return true
