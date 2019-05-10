@@ -51,13 +51,14 @@ github：https://github.com/forguos/wedding
 
 ###  Bug修正版地址
 
+### 编译调试前需修正如下文件
+src\service\config\index.js 配置云环境参数,云环境ID和云环境名
+src\pages\map\index.vue 从27-35行配置酒店名称和GPS定位
+src\pages\messages\index.vue 在218行定义网上提交截至日期
+src\components\video.vue 在第3行更改视频和海报的URL，可以使用小程序云存储里面的文件
+在云数据库里创建表格，并导入初始数据后修改
+
 ### Build Setup
-# 编译调试前需修正如下文件：
-# src\service\config\index.js 配置云环境参数,云环境ID和云环境名
-# src\pages\map\index.vue 从27-35行配置酒店名称和GPS定位
-# src\pages\messages\index.vue 在218行定义网上提交截至日期
-# src\components\video.vue 在第3行更改视频和海报的URL，可以使用小程序云存储里面的文件
-# 在云数据库里创建表格，并导入初始数据后修改
 
 ```bash
 # install dependencies
