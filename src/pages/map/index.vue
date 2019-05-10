@@ -23,14 +23,16 @@ export default {
   data () {
     return {
       // qqSdk: '',
-      latitude: 36.724026,
-      longitude: 104.848902,
+      // Customize latitude, longitude and title of markers
+      latitude: 31.2257816,
+      longitude: 121.525938,
       scale: 12,
       markers: [{
         iconPath: '../../static/images/nav.png',
         id: 0,
-        latitude: 36.724026,
-        longitude: 104.848902,
+        title: '上海齐鲁万怡大酒店',
+        latitude: 31.2257816,
+        longitude: 121.525938,
         width: 50,
         height: 50,
         scale: 12
@@ -50,13 +52,13 @@ export default {
 
     linkHe () {
       wx.makePhoneCall({
-        phoneNumber: '18358274764'
+        phoneNumber: '请从通讯录中拨打'
       })
     },
 
     linkShe () {
       wx.makePhoneCall({
-        phoneNumber: '17855847639'
+        phoneNumber: '请从通讯录中拨打'
       })
     }
   }
