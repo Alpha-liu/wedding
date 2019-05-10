@@ -1,6 +1,6 @@
 <template>
     <div class="greet">
-        <image class="head" src="https://666f-forguo-0979a1-1251886253.tcb.qcloud.la/wxapp/wedding/static/imgs/heart-animation.gif"/>
+        <image class="head" src="../../static/images/heart-animation.gif"/>
         <scroll-view scroll-y
             class="box">
             <div class="item" v-for="(item, index) in userList" :key="index">
@@ -10,8 +10,7 @@
         </scroll-view>
         <p class="count">已收到{{userList.length}}位好友送来的祝福</p>
         <div class="bottom">
-            <button class="left" lang="zh_CN" open-type="getUserInfo" @getuserinfo="sendGreet">送上祝福</button>
-            <button class="right" open-type="share">分享喜悦</button>
+            <button class="middle" lang="zh_CN" open-type="getUserInfo" @getuserinfo="sendGreet">送上祝福</button>
         </div>
     </div>
 </template>
@@ -47,7 +46,7 @@ export default {
     addUser () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('usergreet')
+      const user = db.collection('user')
       user.add({
         data: {
           user: that.userInfo
@@ -65,7 +64,7 @@ export default {
     getOpenId () {
       const that = this
       wx.cloud.callFunction({
-        name: 'login',
+        name: 'user',
         data: {}
       }).then(res => {
         that.openId = res.result.openid
@@ -76,7 +75,7 @@ export default {
     getIsExist () {
       const that = this
       const db = wx.cloud.database()
-      const user = db.collection('usergreet')
+      const user = db.collection('user')
       user.where({
         _openid: that.openId
       }).get().then(res => {
@@ -91,7 +90,7 @@ export default {
     getUserList () {
       const that = this
       wx.showNavigationBarLoading()
-      cloud.get('usergreet').then((res) => {
+      cloud.get('user').then((res) => {
         if (res.errMsg === 'collection.get:ok') {
           that.userList = res.data
           wx.hideNavigationBarLoading()
@@ -168,13 +167,21 @@ export default {
             color #fff
             background #E62C6B
             margin-right 20rpx
+        .middle
+            height 80rpx
+            line-height 80rpx
+            font-size 28rpx
+            width 300rpx
+            color #fff
+            background #e62c6b
+            align-items center				
         .right
             height 80rpx
             line-height 80rpx
             font-size 28rpx
             color #fff
             width 300rpx
-            background #2CA6F9
+            background #2CA6F9	
     .count
         height 60rpx
         line-height 60rpx
