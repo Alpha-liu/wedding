@@ -24,15 +24,15 @@ export default {
     return {
       // qqSdk: '',
       // Customize latitude, longitude and title of markers
-      latitude: 31.2257816,
-      longitude: 121.525938,
+      latitude: 31.059416,
+      longitude: 121.154221,
       scale: 12,
       markers: [{
         iconPath: '../../static/images/nav.png',
         id: 0,
-        title: '上海齐鲁万怡大酒店',
-        latitude: 31.2257816,
-        longitude: 121.525938,
+        title: '上海佘山世茂洲际酒店',
+        latitude: 31.059416,
+        longitude: 121.154221,
         width: 50,
         height: 50,
         scale: 12
