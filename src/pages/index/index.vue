@@ -14,11 +14,12 @@
         </div>
         <div class="info" :animation="animationData">
             <div class="content">
-                <h1>Mr.姬 & Miss.徐</h1>
-                <p>谨定于 2019年2月2日 （星期六）中午12:00</p>
-                <p>农历 腊月二十八 中午十二点整 举办婚礼</p>
-                <p>席设：江苏省常州市香格里拉大酒店</p>
-                <p>地址：江苏省常州市康庄大道777号</p>
+                <h1>{{mainInfo_title}}</h1>
+                <p>谨定于 {{mainInfo_date}}</p>
+                <p>農歷 {{mainInfo_lunar}} 举办婚礼</p>
+                <p>席设: {{mainInfo_hotel}}</p>
+                <p>地址: {{mainInfo_address}}</p>
+				<p>敬治喜筵 恭请阖第光临</p>
                 <image src="../../static/images/we.png" class="img_footer"/>
             </div>
         </div>
@@ -38,7 +39,12 @@ export default {
   data () {
     return {
       isPlay: true,
-      list: []
+      list: [],
+      mainInfo_title: 'Mr.Right & Mrs. Right',
+      mainInfo_date: '20xx年5月20日(星期五) 晚上18:00',
+      mainInfo_lunar: '五月廿十 晚十八點整',
+      mainInfo_hotel: '香格里拉大酒店',
+      mainInfo_address: '某某市某某区某某路1314号'
     }
   },
   onLoad () {
@@ -72,6 +78,11 @@ export default {
         if (res.errMsg === 'collection.get:ok') {
           that.list = res.data[0].banner
           let musicUrl = res.data[0].music
+          that.mainInfo_title = res.data[0].mainInfo.title
+          that.mainInfo_date = res.data[0].mainInfo.date
+          that.mainInfo_lunar = res.data[0].mainInfo.lunar
+          that.mainInfo_hotel = res.data[0].mainInfo.hotel
+          that.mainInfo_address = res.data[0].mainInfo.address
           audioCtx.src = musicUrl
           audioCtx.loop = true
           audioCtx.autoplay = true
@@ -84,7 +95,9 @@ export default {
 
   onShareAppMessage: function (res) {
     return {
-      path: '/pages/index/main'
+      title: '琴瑟在御, 莫不静好',
+      path: '/pages/index/main',
+      imageUrl: '../../static/logo.jpg'
     }
   }
 }
@@ -176,7 +189,7 @@ export default {
         height 100rpx
         line-height 100rpx
       p
-        font-size 24rpx
+        font-size 32rpx
         height 60rpx
         line-height 60rpx
       .img_footer
