@@ -4,7 +4,7 @@
         <p class="title">
             <span>* </span>姓名
         </p>
-        <input type="text" placeholder="怎么称呼您呢？" v-model="name" maxlength="6">
+        <input type="text" placeholder="怎么称呼您呢？" v-model="name" maxlength="36">
         <p class="title">
             <span>* </span>电话
         </p>
@@ -21,7 +21,7 @@
         <p class="title">
             备注
         </p>
-        <textarea focus="true" maxlength="80" class="desc" placeholder="请填写您的备注需求" name="textarea" placeholder-style="color:#ccc;" v-model="desc"/>
+        <input type="text" maxlength="80" placeholder="请填写您的备注需求，三人以上出席请备注下具体人数" v-model="desc"/>
         <div class="btn">
             <button class="left" @tap="submit">确认提交</button>
             <button class="right" @tap="cancel">取消</button>
@@ -137,7 +137,7 @@ export default {
     input
         height 80rpx
         padding 0 20rpx
-        background #f5f5f5
+        background #ffffee
         color #333
         font-size 24rpx
     .group
@@ -159,7 +159,7 @@ export default {
         outline none
         padding 20rpx
         width 650rpx
-        background #f5f5f5
+        background #ffffee
         &::-webkit-input-placeholder
             font-size 30rpx
             color #999
