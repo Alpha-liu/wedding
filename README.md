@@ -21,7 +21,7 @@
 ![云开发入口](https://666f-forguo-0979a1-1251886253.tcb.qcloud.la/static/imgs/enter.png)
 
 * 2. 数据库配置
-![云开发](https://666f-forguo-0979a1-1251886253.tcb.qcloud.la/static/imgs/cloud.png)
+![云开发](https://626b-bk-invitation-48f-1259038632.tcb.qcloud.la/img/database.png)
 
 ---
 
